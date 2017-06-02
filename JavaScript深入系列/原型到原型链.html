@@ -16,6 +16,22 @@
         var p1 = new Person()
         console.log(person.name);
         console.log(p1.name);
+        // 实例的 __proto__ 属性和构造函数的 prototype 指向  Person.prototype
+        console.log(p1.__proto__ === Person.prototype);
+        // 构造函数的 prototype 属性的 constructor 指向构造函数本身
+        console.log(Person === Person.prototype.constructor);
+        console.log(Object.getPrototypeOf(person));
+        p1.name = 'yckk'
+        console.log(p1.name);
+        delete p1.name
+        console.log(p1.name);
+
+        var obj = new Object()
+        obj.name = 'Kevin'
+        console.log(obj.name);
+        console.log(Object.prototype.__proto__);
+        console.log(p1.constructor === Person);
+        // 不是继承，继承意味着复制操作，但是 js 默认不会复制对象属性，只是在两个对象之前创建一些关联
     </script>
 </body>
 </html>
