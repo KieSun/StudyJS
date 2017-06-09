@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <p>13213</p>
+    <p>sadsa</p>
+    <script>
+        let p = document.querySelectorAll('p')
+        Array.from(p).forEach( (p) => {
+            console.log(p);
+        })
+        Array.from(p).values
+        Array.from(p).keys
+        function add(...value) {
+            value.forEach( (v) => {
+                console.log(v);
+            })
+        }
+        add(1, 2, 3, 4)
+        function Person() {
+            this.a = 10,
+            sum: () => {
+                console.log(this.a);
+            }
+        }
+        let per = new Person()
+        p.sum
+    </script>
+</body>
+</html>
