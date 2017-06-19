@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let a = 1
+        let mySymbol = Symbol('myKey')
+        a[mySymbol] = 'yck'
+        console.log(mySymbol);
+        console.log(a[mySymbol]);
+        var MyClass = (function () {
+
+            // module scoped symbol
+            var key = Symbol("key");
+
+            function MyClass(privateData) {
+                this[key] = privateData;
+            }
+
+
+            return MyClass;
+        })();
+
+        var c = new MyClass("hello")
+        console.log(c["key"] === undefined);
+        console.log(Object.getOwnPropertySymbols(c));
+    </script>
+
+</body>
+
+</html>

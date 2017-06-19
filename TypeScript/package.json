@@ -1,0 +1,14 @@
+{
+  "name": "typescript",
+  "version": "1.0.0",
+  "description": "",
+  "main": "base.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "http-server -p 9090 dist/",
+    "open": "opener http://localhost:9090",
+    "livereload": "live-reload --port 9091 dist/"
+  },
+  "author": "",
+  "license": "ISC"
+}
