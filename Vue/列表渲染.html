@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <ul id="ul">
+        <ol v-for="(item, index) of items">
+            {{ item }} - {{index}}
+        </ol>
+    </ul>
+    <div id="example">
+        <input v-model="newTodo" v-on:keyup.enter="addNewTodo" placeholder="Add Todo">
+        <ul>
+            <li is='todo-item' v-for="todo in todos" v-bind:todo="todo" v-bind:key="todo"></li>
+        </ul>
+    </div>
+    <script src="https://unpkg.com/vue"></script>
+    <script>
+        let vm = new Vue({
+            el: '#ul',
+            data: {
+                items: ['1', '2', '3']
+            }
+        })  
+        Vue.component('todo-item', {
+            // 外部需要 bind 相同名字的参数
+            props: ['todo'],
+            template: '<li>{{ todo }}</li>'
+        })
+        let todoVm = new Vue({
+            el: '#example',
+            data: {
+                newTodo: '',
+                todos: ['first todo', 'sencond todo']
+            },
+            methods: {
+                addNewTodo() {
+                    this.todos.push(this.newTodo)
+                    this.newTodo = ''
+                }
+            }
+        })
+    </script>
+</body>
+</html>
