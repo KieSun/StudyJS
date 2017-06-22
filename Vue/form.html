@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="example">
+        <input v-model="message" placeholder="edit me">
+        <p>Message is: {{ message }} </p>
+    </div>
+    <div id="example1">
+        <input type="checkbox" id="checkbox" v-model="checked">
+        <label for="checkbox">{{checked}}</label>
+    </div>
+    <div id="example2">
+        <input type="checkbox" id="y" value="y" v-model="names">
+        <label for="y">y</label>
+        <input type="checkbox" id="c" value="c" v-model="names">
+        <label for="c">c</label>
+        <input type="checkbox" id="k" value="k" v-model="names">
+        <label for="k">k</label>
+        <p> {{names}}</p>
+    </div>
+    <div id="example3">
+        <input type="radio" id="one" value="one" v-model="pick">
+        <label for="one">one</label>
+        <input type="radio" id="two" value="two" v-model="pick">
+        <label for="two">two</label>
+        <p>Picked is {{pick}}</p>
+    </div>
+    <div id="example4">
+        <select v-model="select">
+        <option disabled>Please select</option>
+        <option v-for="item in items">{{item}}</option>
+    </select>
+    <p>{{select}}</p>
+    </div>
+    
+    
+    <script src="https://unpkg.com/vue"></script>
+    <script>
+        let vm = new Vue({
+            el: '#example',
+            data: {
+                message: ''
+            }
+        })
+        let vm1 = new Vue({
+            el: '#example1',
+            data: {
+                checked: false
+            }
+        })
+        let vm2 = new Vue({
+            el: '#example2',
+            data: {
+                names: []
+            }
+        })
+        let vm3 = new Vue({
+            el: '#example3',
+            data: {
+                pick: ''
+            }
+        })
+        let vm4 = new Vue({
+            el: '#example4',
+            data: {
+                select: '',
+                items: ['one', 'two', 'three']
+            }
+        })
+    </script>
+</body>
+</html>
