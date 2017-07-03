@@ -35,6 +35,25 @@
         <div class="detail-main">
           <p class="main-name">{{seller.name}}</p>
           <star :score="seller.score"></star>
+          <div class="title">
+            <div class="line"></div>
+            <div class="name">优惠信息</div>
+            <div class="line"></div>
+          </div>
+          <div class="info-wrap" v-if="seller.supports">
+            <div class="info-item" v-for="item in seller.supports">
+              <span class="item-icon"></span>
+              <span class="item-text">{{item.description}}</span>
+            </div>
+          </div>
+          <div class="title">
+            <div class="line"></div>
+            <div class="name">商家公告</div>
+            <div class="line"></div>
+          </div>
+          <div class="description-wrap">
+            <p class="description">{{seller.bulletin}}</p>
+          </div>
         </div>
       </div>
       <div class="detail-footer">
@@ -225,6 +244,55 @@
           .star {
             margin: 16px auto 28px;
             text-align: center;
+          }
+          .title {
+            width: 80%;
+            display: flex;
+            margin: 0 auto 24px;
+            .line {
+              flex: 1;
+              position: relative;
+              top: 7px;
+              height: 2px;
+              background-color: rgba(255, 255, 255, 0.2);
+            }
+            .name {
+              padding: 0 12px;
+              font-weight: 700;
+              font-size: 16px;
+            }
+          }
+          .info-wrap {
+            width: 80%;
+            margin: 0 auto 24px;
+            font-size: 0;
+            .info-item {
+              padding: 0 12px;
+              margin-bottom: 12px;
+              .item-icon {
+                display: inline-block;
+                width: 12px;
+                height: 12px;
+                background-image: url("discount_1@2x.png");
+                background-size: 12px 12px;
+                background-repeat: no-repeat;
+                vertical-align: top;
+              }
+              .item-text {
+                margin-left: 6px;
+                font-size: 12px;
+                line-height: 12px;
+              }
+            }
+          }
+          .description-wrap {
+            width: 80%;
+            font-size: 12px;
+            margin: 0 auto 24px;
+          }
+          .description {
+            line-height: 24px;
+            padding: 0 12px;
           }
         }
       }
