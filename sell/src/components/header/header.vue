@@ -30,12 +30,24 @@
     <div class="background">
       <img width="100%" height="100%" :src="seller.avatar">
     </div>
-    <div class="detail" v-show="isShow"></div>
+    <div class="detail" v-show="isShow">
+      <div class="detail-warp clearfix">
+        <div class="detail-main">
+          <p class="main-name">{{seller.name}}</p>
+          <star :score="seller.score"></star>
+        </div>
+      </div>
+      <div class="detail-footer">
+        <i class="icon-remove_circle_outline"></i>
+      </div>
+    </div>
   </div>
 
 </template>
 
 <script>
+  import star from '../star/star.vue'
+
   export default {
     props: ['seller'],
     data () {
@@ -48,6 +60,9 @@
         this.isShow = true
       }
     },
+    components: {
+      star
+    },
     created() {
       this.activeMap = ['decrease', 'discount', 'guarantee', 'invoice', 'special']
     }
@@ -56,9 +71,11 @@
 </script>
 
 <style lang="scss" scoped>
+  @import '../../common/style/common.scss';
   @import '../../common/style/icon.css';
 
   #header {
+    color: white;
     position: relative;
     overflow: hidden;
     .content-wrap {
@@ -193,6 +210,32 @@
       height: 100%;
       top: 0;
       left: 0;
+      overflow: auto;
+      .detail-warp {
+        min-height: 100%;
+        .detail-main {
+          margin-top: 64px;
+          padding-bottom: 64px;
+          .main-name {
+            font-weight: 700;
+            line-height: 16px;
+            font-size: 16px;
+            text-align: center;
+          }
+          .star {
+            margin: 16px auto 28px;
+            text-align: center;
+          }
+        }
+      }
+      .detail-footer {
+        position: relative;
+        width: 32px;
+        height: 32px;
+        font-size: 32px;
+        clear: both;
+        margin: -64px auto 0 auto;
+      }
     }
   }
 
