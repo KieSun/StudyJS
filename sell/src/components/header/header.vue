@@ -1,5 +1,4 @@
 <template>
-
   <div id="header">
     <div class="content-wrap">
       <div class="avatar">
@@ -41,7 +40,7 @@
             <div class="line"></div>
           </div>
           <div class="info-wrap" v-if="seller.supports">
-            <div class="info-item" v-for="item in seller.supports">
+            <div class="info-item" v-for="item in seller.supports" >
               <span class="item-icon"></span>
               <span class="item-text">{{item.description}}</span>
             </div>
@@ -56,7 +55,7 @@
           </div>
         </div>
       </div>
-      <div class="detail-footer">
+      <div class="detail-footer" @click="hideDetail">
         <i class="icon-remove_circle_outline"></i>
       </div>
     </div>
@@ -77,6 +76,9 @@
     methods: {
       showDetail() {
         this.isShow = true
+      },
+      hideDetail() {
+        this.isShow = false
       }
     },
     components: {
@@ -230,7 +232,9 @@
       top: 0;
       left: 0;
       overflow: auto;
+      z-index: 100;
       .detail-warp {
+        width: 100%;
         min-height: 100%;
         .detail-main {
           margin-top: 64px;
