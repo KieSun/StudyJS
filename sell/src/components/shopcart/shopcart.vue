@@ -1,44 +1,96 @@
 <template>
-  <div class="shopcart">
-    <div class="left-wrapper">
-      <div class="logo-wrapper" >
-        <div class="logo" :class="{'highlight': totolPrice>minPrice}">
-          <i class="icon-close" :class="{'highlight': totolPrice>minPrice}"></i>
+  <div>
+    <div class="shopcart" @click="toggleAction">
+      <div class="left-wrapper">
+        <div class="logo-wrapper">
+          <div class="logo" :class="{'highlight': totolPrice>minPrice}">
+            <i class="icon-close" :class="{'highlight': totolPrice>minPrice}"></i>
+          </div>
+          <div class="count" v-show="totolCount>0">{{totolCount}}</div>
         </div>
-        <div class="count" v-show="totolCount>0">{{totolCount}}</div>
+        <div class="price-wrapper">
+          <span class="price">¥{{totolPrice}}</span>
+        </div>
+        <div class="desc-wrapper">
+          <span class="price">另需配送费¥{{deliveryPrice}}元</span>
+        </div>
       </div>
-      <div class="price-wrapper">
-        <span class="price">¥{{totolPrice}}</span>
+      <div class="right-wrapper" :class="{'pay':totolPrice>minPrice}">
+        <span class="min-price">{{goPrice}}</span>
       </div>
-      <div class="desc-wrapper">
-        <span class="price">另需配送费¥{{deliveryPrice}}元</span>
-      </div>
+
     </div>
-    <div class="right-wrapper" :class="{'pay':totolPrice>minPrice}">
-      <span class="min-price">{{goPrice}}</span>
-    </div>
-    <div class="list-wrapper">
+    <div class="list-wrapper" v-show="fold&&totolPrice">
       <div class="head-wrapper">
         <span class="left">购物车</span>
-        <span class="empty">清空</span>
+        <span class="empty" @click="emptyAction">清空</span>
       </div>
-      <ul class="food-list">
+      <div class="food-list"  ref="list">
+        <ul >
         <li class="food" v-for="(food, index) in selectedFood" :key="index">
           <span class="name">{{food.name}}</span>
-          <span class="price">{{food.price*food.count}}</span>
-          <cartcontroll :food="food"></cartcontroll>
+          <span class="price">¥{{food.price*food.count}}</span>
+          <cartcontroll :food="food" class="cartcontroll"></cartcontroll>
         </li>
       </ul>
+      </div>
+      
     </div>
+    <div class="background" v-show="fold&&totolPrice" @click="hideAction"></div>
   </div>
+
 </template>
 
 <script>
   import cartcontroll from '../cartControll/cartControll.vue'
+  import BScroll from 'better-scroll'
   export default {
     props: ['minPrice', 'deliveryPrice', 'selectedFood'],
     components: {
       cartcontroll
+    },
+    data() {
+      return {
+        fold: false
+      }
+    },
+    watch: {
+      selectedFood() {
+        console.log(this.selectedFood.length)
+        if (this.scroll && this.selectedFood.length) {
+          console.log(111)
+          this.$nextTick(() => {
+            this.scroll.refresh()
+          })
+        }
+      }
+    },
+    methods: {
+      toggleAction() {
+        if (!this.totolPrice) {
+          return
+        }
+        this.fold = !this.fold
+        if (this.fold) {
+          this.$nextTick(() => {
+            if (!this.scroll) {
+              this.scroll = new BScroll(this.$refs.list, {
+                click: true
+              })
+            } else {
+              this.scroll.refresh()
+            }
+          })
+        }
+      },
+      hideAction() {
+        this.fold = false
+      },
+      emptyAction() {
+        this.selectedFood.forEach((food) => {
+          food.count = 0
+        })
+      }
     },
     computed: {
       totolPrice() {
@@ -68,6 +120,7 @@
       }
     }
   }
+
 </script>
 
 <style lang="scss">
@@ -79,6 +132,7 @@
     width: 100%;
     height: 48px;
     display: flex;
+    z-index: 50;
     .left-wrapper {
       background: #141d27;
       font-size: 0;
@@ -166,35 +220,70 @@
         color: #fff;
       }
     }
-    .list-wrapper {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
-      z-index: -1;
-      background: #f3f5f7;
-      .head-wrapper {
-        height: 40px;
-        line-height: 40px;
-        padding: 0 18px;
-        .left {
-          font-size: 14px;
-          color: rgb(7, 17, 27);
-          float: left;
-        }
-        .empty {
-          font-size: 12px;
-          color: rgb(0, 160, 220);
-          float: right;
-        }
+  }
+
+  .list-wrapper {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 10;
+    background: #f3f5f7;
+    .head-wrapper {
+      height: 40px;
+      line-height: 40px;
+      padding: 0 18px;
+      .left {
+        font-size: 14px;
+        color: rgb(7, 17, 27);
+        float: left;
       }
-      .food-list {
-        max-height: 210px;
-        background: #fff;
-        .food {
-          height: 48px;
+      .empty {
+        font-size: 12px;
+        color: rgb(0, 160, 220);
+        float: right;
+      }
+    }
+    .food-list {
+      max-height: 210px;
+      background: #fff;
+      overflow: hidden;
+      .food {
+        border-bottom: 1px solid rgba(0, 17, 27, 0.1);
+        position: relative;
+        height: 48px;
+        .name {
+          font-size: 14px;
+          line-height: 48px;
+          margin-left: 18px;
+        }
+        .price {
+          font-size: 14px;
+          position: absolute;
+          font-weight: 700;
+          line-height: 24px;
+          top: 12px;
+          right: 115px;
+          color: rgb(240, 20, 20);
+        }
+        .cartcontroll {
+          position: absolute;
+          right: 18px;
+          top: 6px;
         }
       }
     }
   }
+
+  .background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(7, 17, 27, 0.6);
+    filter: blur(10px);
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+  }
+
 </style>
