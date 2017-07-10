@@ -6,6 +6,12 @@
           <i class="icon-close"></i>
         </div>
       </div>
+      <div class="price-wrapper">
+        <span class="price">¥0</span>
+      </div>
+      <div class="desc-wrapper">
+        <span class="price">另需配送费¥{{deliveryPrice}}元</span>
+      </div>
     </div>
     <div class="right-wrapper">
       <span class="min-price">¥{{minPrice}}起送</span>
@@ -15,7 +21,7 @@
 
 <script>
   export default {
-    props: ['minPrice']
+    props: ['minPrice', 'deliveryPrice']
   }
 </script>
 
@@ -30,6 +36,7 @@
     display: flex;
     .left-wrapper {
       background: #141d27;
+      font-size: 0;
       flex: 1;
       .logo-wrapper {
         display: inline-block;
@@ -55,6 +62,26 @@
             color: #80858a;
           }
         }
+      }
+      .price-wrapper {
+        display: inline-block;
+        font-size: 16px;
+        margin-top: 12px;
+        font-weight: 700;
+        line-height: 24px;
+        color: #fff;
+        padding-right: 12px;
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        vertical-align: top;
+      }
+      .desc-wrapper {
+        display: inline-block;
+        margin-left: 12px;
+        font-size: 12px;
+        line-height: 48px;
+        font-weight: 700;
+        color: #fff;
+        vertical-align: top;
       }
     }
     .right-wrapper {
