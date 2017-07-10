@@ -50,6 +50,7 @@
                                         ¥{{food.oldPrice}}
                                     </span>
                                 </div>
+                                <carcontroller :food="food" class="carcontroller-wrapper"></carcontroller>
     
                             </div>
                         </li>
@@ -57,13 +58,14 @@
                 </li>
             </ul>
         </div>
-        <shopcart :minPrice="seller.minPrice" :deliveryPrice="seller.deliveryPrice"></shopcart>
+        <shopcart :minPrice="seller.minPrice" :deliveryPrice="seller.deliveryPrice" :selectedFood="selectedFood"></shopcart>
     </div>
 </template>
 
 <script>
 import BScroll from 'better-scroll'
 import shopcart from '../shopcart/shopcart'
+import carcontroller from '../cartControll/cartControll'
 
 export default {
   props: ['seller'],
@@ -121,10 +123,23 @@ export default {
           return index
         }
       }
+    },
+    selectedFood() {
+      let foodArray = []
+      this.goods.forEach((foods) => {
+        foods.foods.forEach((food) => {
+          if (food.count) {
+            foodArray.push(food)
+          }
+        })
+      })
+
+      return foodArray
     }
   },
   components: {
-    shopcart
+    shopcart,
+    carcontroller
   }
 }
 
@@ -209,6 +224,7 @@ $backgroundColor: #f3f5f7;
                 display: flex;
                 margin: 18px;
                 padding-bottom: 18px;
+                position: relative;
 
                 .icon-wrap {
                     flex: 0 0 57px;
@@ -251,6 +267,11 @@ $backgroundColor: #f3f5f7;
                             font-weight: 700px;
                             text-decoration: line-through;
                         }
+                    }
+                    .carcontroller-wrapper {
+                        position: absolute;
+                        right: 0;
+                        bottom: 12px;
                     }
                 }
             }

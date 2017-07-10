@@ -1,27 +1,72 @@
 <template>
   <div class="shopcart">
     <div class="left-wrapper">
-      <div class="logo-wrapper">
-        <div class="logo">
-          <i class="icon-close"></i>
+      <div class="logo-wrapper" >
+        <div class="logo" :class="{'highlight': totolPrice>minPrice}">
+          <i class="icon-close" :class="{'highlight': totolPrice>minPrice}"></i>
         </div>
+        <div class="count" v-show="totolCount>0">{{totolCount}}</div>
       </div>
       <div class="price-wrapper">
-        <span class="price">¥0</span>
+        <span class="price">¥{{totolPrice}}</span>
       </div>
       <div class="desc-wrapper">
         <span class="price">另需配送费¥{{deliveryPrice}}元</span>
       </div>
     </div>
-    <div class="right-wrapper">
-      <span class="min-price">¥{{minPrice}}起送</span>
+    <div class="right-wrapper" :class="{'pay':totolPrice>minPrice}">
+      <span class="min-price">{{goPrice}}</span>
+    </div>
+    <div class="list-wrapper">
+      <div class="head-wrapper">
+        <span class="left">购物车</span>
+        <span class="empty">清空</span>
+      </div>
+      <ul class="food-list">
+        <li class="food" v-for="(food, index) in selectedFood" :key="index">
+          <span class="name">{{food.name}}</span>
+          <span class="price">{{food.price*food.count}}</span>
+          <cartcontroll :food="food"></cartcontroll>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
 
 <script>
+  import cartcontroll from '../cartControll/cartControll.vue'
   export default {
-    props: ['minPrice', 'deliveryPrice']
+    props: ['minPrice', 'deliveryPrice', 'selectedFood'],
+    components: {
+      cartcontroll
+    },
+    computed: {
+      totolPrice() {
+        let price = 0
+        this.selectedFood.forEach((food) => {
+          price += food.price * food.count
+        })
+        return price
+      },
+      goPrice() {
+        let string = ''
+        if (this.totolPrice === 0) {
+          string = `¥${this.minPrice}起送`
+        } else if (this.totolPrice < this.minPrice) {
+          string = `还差¥${this.minPrice - this.totolPrice}起送`
+        } else {
+          string = '结算'
+        }
+        return string
+      },
+      totolCount() {
+        let count = 0
+        this.selectedFood.forEach((food) => {
+          count += food.count
+        })
+        return count
+      }
+    }
   }
 </script>
 
@@ -56,11 +101,32 @@
           height: 100%;
           border-radius: 50%;
           text-align: center;
+          &.highlight {
+            background: rgb(0, 160, 220);
+          }
           .icon-close {
             font-size: 24px;
             line-height: 44px;
             color: #80858a;
+            &.highlight {
+              color: #fff;
+            }
           }
+        }
+        .count {
+          position: absolute;
+          right: 0;
+          top: 0;
+          width: 24px;
+          height: 16px;
+          background: red;
+          color: #fff;
+          border-radius: 12px;
+          font-size: 9px;
+          font-weight: 700;
+          line-height: 16px;
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.4);
+          text-align: center;
         }
       }
       .price-wrapper {
@@ -94,7 +160,40 @@
         font-size: 12px;
         font-weight: 700;
         color: #fff;
-
+      }
+      &.pay {
+        background: rgb(0, 160, 220);
+        color: #fff;
+      }
+    }
+    .list-wrapper {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      z-index: -1;
+      background: #f3f5f7;
+      .head-wrapper {
+        height: 40px;
+        line-height: 40px;
+        padding: 0 18px;
+        .left {
+          font-size: 14px;
+          color: rgb(7, 17, 27);
+          float: left;
+        }
+        .empty {
+          font-size: 12px;
+          color: rgb(0, 160, 220);
+          float: right;
+        }
+      }
+      .food-list {
+        max-height: 210px;
+        background: #fff;
+        .food {
+          height: 48px;
+        }
       }
     }
   }
