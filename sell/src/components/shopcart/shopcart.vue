@@ -227,7 +227,7 @@
     left: 0;
     bottom: 0;
     width: 100%;
-    z-index: 10;
+    z-index: 40;
     background: #f3f5f7;
     .head-wrapper {
       height: 40px;
@@ -284,6 +284,7 @@
     width: 100%;
     height: 100%;
     opacity: 1;
+    z-index: 39;
   }
 
 </style>

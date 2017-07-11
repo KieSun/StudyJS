@@ -16,7 +16,7 @@
                         {{foods.name}}
                     </h1>
                     <ul>
-                        <li v-for="(food, index) in foods.foods" :key="index" class="food-item">
+                        <li v-for="(food, index) in foods.foods" :key="index" class="food-item" @click="selectOneFood(food)">
                             <div class="icon-wrap">
                                 <img :src="food.icon" width="57" height="57">
                             </div>
@@ -59,6 +59,7 @@
             </ul>
         </div>
         <shopcart :minPrice="seller.minPrice" :deliveryPrice="seller.deliveryPrice" :selectedFood="selectedFood"></shopcart>
+        <food :selectFood="selectFood" ref="foodDetail"></food>
     </div>
 </template>
 
@@ -66,6 +67,7 @@
 import BScroll from 'better-scroll'
 import shopcart from '../shopcart/shopcart'
 import carcontroller from '../cartControll/cartControll'
+import food from '../food/food'
 
 export default {
   props: ['seller'],
@@ -73,7 +75,8 @@ export default {
     return {
       goods: [],
       heightArray: [],
-      scroolY: 0
+      scroolY: 0,
+      selectFood: {}
     }
   },
   created() {
@@ -112,6 +115,10 @@ export default {
       this.scroolY = this.heightArray[index]
       let ele = this.$refs.food.getElementsByClassName('food-list')[index]
       this.foodScroll.scrollToElement(ele, 300)
+    },
+    selectOneFood(food) {
+      this.selectFood = food
+      this.$refs.foodDetail.show()
     }
   },
   computed: {
@@ -139,7 +146,8 @@ export default {
   },
   components: {
     shopcart,
-    carcontroller
+    carcontroller,
+    food
   }
 }
 
