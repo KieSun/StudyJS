@@ -20,11 +20,21 @@ export default {
       currentIndex: 0
     }
   },
+  activated() {
+    this.play()
+  },
+  deactivated() {
+    clearTimeout(this.timer)
+  },
+  beforeDestroy() {
+    clearTimeout(this.timer)
+  },
   mounted() {
     setTimeout(() => {
       this.setSliderWidth()
       this.initScroll()
     }, 20)
+    console.log(111)
   },
   methods: {
     setSliderWidth() {
@@ -48,17 +58,28 @@ export default {
         scrollX: true,
         scrollY: false,
         snapLoop: true,
-        snapSpeed: 200,
+        snapSpeed: 400,
         momentum: false,
         snap: true
       })
 
       this.slider.on('scrollEnd', () => {
         this.currentIndex = this.slider.getCurrentPage().pageX - 1
+        clearTimeout(this.timer)
+        this.play()
       })
+
+      this.play()
     },
     getDotArray(length) {
       this.dotArray = new Array(length)
+    },
+    play() {
+      let pageIndx = this.currentIndex + 2
+      console.log(pageIndx)
+      this.timer = setTimeout(() => {
+        this.slider.goToPage(pageIndx, 0, 400)
+      }, 2000)
     }
   }
 }

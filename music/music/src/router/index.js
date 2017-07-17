@@ -10,6 +10,10 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
+      path: '/',
+      redirect: '/suggest'
+    },
+    {
       path: '/rank',
       name: 'rank',
       component: rank
