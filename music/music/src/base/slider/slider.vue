@@ -76,7 +76,6 @@ export default {
     },
     play() {
       let pageIndx = this.currentIndex + 2
-      console.log(pageIndx)
       this.timer = setTimeout(() => {
         this.slider.goToPage(pageIndx, 0, 400)
       }, 2000)
