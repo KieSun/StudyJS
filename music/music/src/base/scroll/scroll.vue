@@ -21,7 +21,7 @@ export default {
       }
       this.scroll = new BScroll(this.$refs.wrapper, {
         click: true,
-        probeType: 2
+        probeType: 3
       })
       this.scroll.on('scroll', (pos) => {
         me.$emit('scroll', pos)

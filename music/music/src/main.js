@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import store from './store'
 import Lazyload from 'vue-lazyload'
 import 'babel-polyfill'
 
@@ -15,5 +16,6 @@ import './common/css/index.scss'
 new Vue({
   el: '#app',
   router,
+  store,
   render: h => h(App)
 })
